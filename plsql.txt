@@ -1,0 +1,249 @@
+question 3
+SQL> create or replace function totacc(yr IN number)
+  2  return number as
+  3  totalaccidents number(3);
+  4  begin
+  5  select count(*) into totalaccidents from accident
+  6  group by extract(year from acc_date)
+  7  having extract(year from acc_date) = yr;
+  8  return totalaccidents;
+  9  end;
+ 10  /
+
+Function created.
+
+SQL> declare
+  2  totalaccd number;
+  3  begin
+  4  totalaccd:=totacc(2019);
+  5  dbms_output.put_line('Total accidents in 2019 is ' || totalaccd);
+  6  end;
+  7  /
+Total accidents in 2019 is 6
+////////////////////////////////////////////////////q3 done\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+create or replace procedure searchloc( loc IN varchar(10) )
+declare
+item accident%rowtype
+begin
+for item in (select report_number, acc_date, location from accident) LOOP
+if(item.location=loc)
+dbms_output.put_line(item.report_number||' '||item.accd_date||' '||item.location);
+end if;
+end loop;
+end;
+/
+
+
+
+
+SQL> declare
+  2  cursor acc is
+  3  select * from accident;
+  4  acc_rec acc%rowtype;
+  5  begin
+  6  open acc;
+  7  loop
+  8  fetch acc into acc_rec;
+  9  exit when acc%notfound;
+ 10  dbms_output.put_line(acc_rec.report_number);
+ 11  end loop;
+ 12  close acc;
+ 13  end;
+ 14  /
+4354
+4543
+6433
+5465
+3232
+4900
+2123
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace procedure searchloc
+  2  declare
+  3     cursor acc is
+  4     select * from accident;
+  5     acc_rec acc%rowtype;
+  6     begin
+  7     open acc;
+  8     loop
+  9     fetch acc into acc_rec;
+ 10     exit when acc%notfound;
+ 11     if(acc_rec.location = 'manipal')
+ 12             dbms_output.put_line(acc_rec.report_number ||' '|| acc_rec.acc_date ||' '|| acc_rec.location );
+ 13  end loop;
+ 14  close acc;
+ 15  end;
+ 16  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors;
+Errors for PROCEDURE SEARCHLOC:
+
+LINE/COL ERROR
+-------- -----------------------------------------------------------------
+2/1      PLS-00103: Encountered the symbol "DECLARE" when expecting one of
+         the following:
+         ( ; is with authid as cluster compress order using compiled
+         wrapped external deterministic parallel_enable pipelined
+         result_cache
+
+12/3     PLS-00103: Encountered the symbol "DBMS_OUTPUT" when expecting
+         one of the following:
+         * & = - + < / > at in is mod remainder not rem then
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2
+         like4 likec between overlaps || multiset year day member
+
+LINE/COL ERROR
+-------- -----------------------------------------------------------------
+         submultiset
+         The symbol "*" was substituted for "DBMS_OUTPUT" to continue.
+
+12/97    PLS-00103: Encountered the symbol ";" when expecting one of the
+         following:
+         . ( * % & = - + < / > at in is mod remainder not rem then
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2
+         like4 likec between || member submultiset
+
+15/4     PLS-00103: Encountered the symbol "end-of-file" when expecting
+         one of the following:
+
+LINE/COL ERROR
+-------- -----------------------------------------------------------------
+         ( begin case declare end exception exit for goto if loop mod
+         null pragma raise return select update while with
+         <an identifier> <a double-quoted delimited-identifier>
+         <a bind variable> << continue close current delete fetch lock
+         insert open rollback savepoint set sql execute commit forall
+         merge pipe purge
+
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+C:\Users\MAHE\source\repos\RegForm\RegForm\bin\Debug\RegForm.exe.config
+C:\Users\MAHE\source\repos\RegForm\RegForm\bin\Debug\RegForm.exe
+C:\Users\MAHE\source\repos\RegForm\RegForm\bin\Debug\RegForm.pdb
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.csprojAssemblyReference.cache
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.Form1.resources
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.Properties.Resources.resources
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.csproj.GenerateResource.cache
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.exe
+C:\Users\MAHE\source\repos\RegForm\RegForm\obj\Debug\RegForm.pdb

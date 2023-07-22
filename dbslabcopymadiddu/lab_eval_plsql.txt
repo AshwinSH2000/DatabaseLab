@@ -1,0 +1,68 @@
+create table department(dept varchar(10),building varchar(15),budget number(5),primary key(dept));
+create table student1(sid number(5),Name varchar(10),dept varchar(10),totcred number(5),primary key(sid),foreign key(dept) references department(dept));
+create table instructor(id number(5),Name varchar(15),dept varchar(10),salary number(10),primary key(id),foreign key(dept) references department(dept));
+create table course1(course_id varchar(10),title varchar(15),dept varchar(10),credits number(5),primary key(course_id),foreign key(dept) references department(dept));
+create table takes(sid number(5),course_id varchar(10),secid number(5),sem varchar(10),grade varchar(5),foreign key(sid) references student1(sid),foreign key(course_id) references course1(course_id));
+
+insert into department values('CSE','Taylor',100000);
+insert into department values('FIN','Painter',120000);
+insert into department values('MUSIC','Packard',80000);
+insert into department values('HIS','Painter',50000);
+insert into department values('ICT','AB5',100000);
+
+insert into student1 values(001,'Zhang','CSE',102);
+insert into student1 values(123,'Shankar','CSE',32);
+insert into student1 values(199,'Brandt','HIS',80);
+insert into student1 values(231,'Chavez','FIN',110);
+insert into student1 values(557,'Sanchez','MUSIC',38);
+
+insert into instructor values(101,'Srinivasan','CSE',65000);
+insert into instructor values(121,'Wu','FIN',90000);
+insert into instructor values(151,'Mozart','MUSIC',40000);
+insert into instructor values(455,'Katz','CSE',75000);
+insert into instructor values(585,'Califieri','HIS',62000);
+
+insert into course1 values('CS101','DBS','CSE',4);
+insert into course1 values('CS190','GTD','CSE',3);
+insert into course1 values('CS315','Robotics','CSE',3);
+insert into course1 values('CS347','ImageP','CSE',4);
+insert into course1 values('FIN201','Banking','FIN',3);
+insert into course1 values('HIS351','WorldWar','HIS',4);
+insert into course1 values('MU199','MusicVideo','MUSIC',3);
+
+insert into takes values(001,'CS101',1,'Fall','2020','A');
+insert into takes values(001,'CS347',1,'Fall','2020','A-');
+insert into takes values(123,'CS101',1,'Fall','2020','A');
+insert into takes values(123,'CS190',2,'Spring','2020','C');
+insert into takes values(231,'FIN201',1,'Spring','2019','B-');
+insert into takes values(557,'MU199',1,'Spring','2019','A-');
+-----------------------------------------------------------------------------------------------------
+create or replace procedure instruct_count(dept_name in varchar) as
+count1 number(5);
+begin
+select count(*) into count1 from instructor i where i.dept=dept_name;
+if count1>0 then
+for var in(select ID,name from instructor i where i.dept=dept_name)
+loop
+dbms_output.put_line(var.ID||' ' || var.name);
+end loop;
+else
+dbms_output.put_line('No instructors');
+end if;
+end;
+
+exec instruct_count('CSE');
+-----------------------------------------------------------------------------------------------------
+create or replace function stud_count return number as 
+count1 number(5);
+begin
+select count(*) into count1 from course1 c natural join takes t where grade='A' and title='DBS'; 
+return count1;
+end;
+
+declare
+count1 number(5);
+begin
+count1:=stud_count;
+dbms_output.put_line('No of students : '||count1);
+end;

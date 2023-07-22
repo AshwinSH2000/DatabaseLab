@@ -1,0 +1,610 @@
+insert into PERSON values(20173457675, 'Ashwin', 'MIT qtrs manipal');
+regno
+model year
+create table CAR(regno varchar(10) primary key, model varchar(15), year int);
+create table ACCIDENT(report_number int primary key, acc_date date, location varchar(30))	;
+
+create table ACCIDENT(report_number int primary key, acc_date date, location varchar(30))
+
+create table OWNS( driver_id varchar(30), regno varchar(20), primary key(driver_id, regno));
+
+PARTICIPATED (driver_id#: varchar(30), regno: varchar(20), report_number:
+int, damage_amount: int )
+
+create table participates(
+	driver_id varchar(20) foreign key references person(driver_id),
+	regno varchar(10) foreign key references car(regno),
+	report_number int foreign key references accident(report_number),
+	damage_amount int,
+	primary key(driver_id, regno,report_number)
+);
+
+
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Wed Jan 22 09:49:25 2020
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+Enter user-name: cc3352@ictorcl
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> select table_name from user_tables;
+
+TABLE_NAME
+------------------------------
+PERSON
+CAR
+ACCIDENT
+OWNS
+
+SQL> create table participates(
+  2  driver_id varchar(20) foreign key references person(driver_id),
+  3  regno varchar(10) foreign key references car(regno),
+  4  report_number int foreign key references accident(report_number),
+  5  damage_amount int,
+  6  primary key(driver_id, regno,report_number);
+driver_id varchar(20) foreign key references person(driver_id),
+                      *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table participates(
+  2  driver_id varchar(20) foreign key references person(driver_id),
+  3  regno varchar(10) foreign key references car(regno),
+  4  report_number int foreign key references accident(report_number),
+  5  damage_amount int,
+  6  primary key(driver_id, regno,report_number));
+driver_id varchar(20) foreign key references person(driver_id),
+                      *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table participates(
+  2  driver_id varchar(20) foreign key references person(driver_id),
+  3  regno varchar(10) foreign key references car(regno),
+  4  report_number int foreign key references accident(report_number),
+  5  damage_amount int,
+  6  primary key(driver_id, regno,report_number)
+  7  );
+driver_id varchar(20) foreign key references person(driver_id),
+                      *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table participates(
+  2  driver_id varchar(20) foreign key references person(driver_id),
+  3  regno varchar(10) foreign key references car(regno),
+  4  report_number int foreign key references accident(report_number),
+  5  damage_amount int,
+  6  primary key(driver_id, regno,report_number)
+  7  primary key(driver_id, regno,report_number)
+  8  );
+driver_id varchar(20) foreign key references person(driver_id),
+                      *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table participated(
+  2  driver_id varchar(20),
+  3  regno varchar(10),
+  4  report_number int,
+  5  damage_amount int,
+  6  primary key(driver_id, regno, report_number)
+  7  );
+
+Table created.
+
+SQL> alter table participated add foreign key (driver_id) references person(driver_id);
+
+Table altered.
+
+SQL> alter table participated add foreign key (regno) references car(regno);
+
+Table altered.
+
+SQL> alter table participated add foreign key (report_number) references accident(report_number);
+
+Table altered.
+
+SQL> select * from person;
+
+DRIVER_ID            NAME            ADDRESS
+-------------------- --------------- --------------------
+20173434534          abc             manipal
+20173433233          xyz             manipal
+20173476445          mno             udupi
+20173476488          mno             udupi
+20173424323          wre             udupi
+
+SQL> select * from car;
+
+REGNO      MODEL                 YEAR
+---------- --------------- ----------
+KA20MA2323 Honda city            2019
+KA20Z3345  Maruti 800            2018
+KA20P1221  Maruti alto           2020
+KA19MA2321 Hyundai i10           2019
+KA19MB3432 Hyundai i20           2018
+
+SQL> select * from accident
+  2  ;
+
+REPORT_NUMBER ACC_DATE  LOCATION
+------------- --------- ------------------------------
+         4354 13-JAN-19 manipal
+         4543 31-MAR-19 parkala
+         6433 24-DEC-19 udupi
+         5465 11-OCT-19 kundapur
+         3232 10-JUL-19 herga
+
+SQL> SELECT * FROM OWNS
+  2  ;
+
+DRIVER_ID                      REGNO
+------------------------------ --------------------
+20173424323                    KA20Z3345
+20173433233                    KA20P1221
+20173434534                    KA19MA2321
+20173476445                    KA19MB3432
+20173476488                    KA20MA2323
+
+SQL> INSERT INTO participated values('20173434534','KA19MA2321',4354,32333);
+
+1 row created.
+
+SQL> INSERT INTO participated values('20173424323','KAZ3345',4543,21333);
+INSERT INTO participated values('20173424323','KAZ3345',4543,21333)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (CC3352.SYS_C00206556) violated - parent key
+not found
+
+
+SQL> INSERT INTO participated values('20173424323','KA20Z3345',4543,21333);
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL>
+
+
+
+
+
+
+//////////////////////////////////////////////////////////29TH JAN 2020///////////////////
+
+SQL> UPDATE PARTICIPATED SET DAMAGE_AMOUNT=25000 WHERE REPORT_NUMBER=6433;
+
+1 row updated.
+
+SQL> SELECT * FROM PARTICIPATED;
+
+DRIVER_ID            REGNO      REPORT_NUMBER DAMAGE_AMOUNT
+-------------------- ---------- ------------- -------------
+20173476488          KA20MA2323          6433         25000
+20173433233          KA19MB3432          5465         12431
+20173476445          KA20P1221           3232          1931
+20173434534          KA19MA2321          4354         32333
+20173424323          KA20Z3345           4543         21333
+
+
+SQL> SELECT * FROM PARTICIPATED;
+
+DRIVER_ID            REGNO      REPORT_NUMBER DAMAGE_AMOUNT
+-------------------- ---------- ------------- -------------
+20173476488          KA20MA2323          6433         25000
+20173433233          KA19MB3432          5465         12431
+20173476445          KA20P1221           3232          1931
+20173434534          KA19MA2321          4354         32333
+20173424323          KA20Z3345           4543         21333
+
+SQL> SELECT * FROM CAR;
+
+REGNO      MODEL                 YEAR
+---------- --------------- ----------
+KA20MA2323 Honda city            2019
+KA20Z3345  Maruti 800            2018
+KA20P1221  Maruti alto           2020
+KA19MA2321 Hyundai i10           2019
+KA19MB3432 Hyundai i20           2018
+
+SQL> SELECT * FROM OWNS;
+
+DRIVER_ID                      REGNO
+------------------------------ --------------------
+20173424323                    KA20Z3345
+20173433233                    KA20P1221
+20173434534                    KA19MA2321
+20173476445                    KA19MB3432
+20173476488                    KA20MA2323
+
+SQL> SELECT * FROM PERSON;
+
+DRIVER_ID            NAME            ADDRESS
+-------------------- --------------- --------------------
+20173434534          abc             manipal
+20173433233          xyz             manipal
+20173476445          mno             udupi
+20173476488          mno             udupi
+20173424323          wre             udupi
+
+SQL> SELECT * FROM ACCIDENT;
+
+REPORT_NUMBER ACC_DATE  LOCATION
+------------- --------- ------------------------------
+         4354 13-JAN-19 manipal
+         4543 31-MAR-19 parkala
+         6433 24-DEC-19 udupi
+         5465 11-OCT-19 kundapur
+         3232 10-JUL-19 herga
+
+SQL> COMMIT
+  2  ;
+
+Commit complete.
+
+
+
+SQL> INSERT INTO ACCIDENT VALUES(4432,'01-JAN-2020','MANGALORE');
+
+1 row created.
+
+SQL> SELECT * FROM ACCIDENT;
+
+REPORT_NUMBER ACC_DATE  LOCATION
+------------- --------- ------------------------------
+         4432 01-JAN-20 MANGALORE
+         4354 13-JAN-19 manipal
+         4543 31-MAR-19 parkala
+         6433 24-DEC-19 udupi
+         5465 11-OCT-19 kundapur
+         3232 10-JUL-19 herga
+
+6 rows selected.
+
+SQL> DELETE FROM ACCIDENT WHERE EXTRACT(YEAR FROM ACC_DATE)=2020;
+1 row deleted.
+
+SQL> alter table participated add AGE int;			////add column
+
+Table altered.
+
+SQL> update participated set age=31 where report_number=6433;
+
+1 row updated.
+
+SQL> update participated set age=28 where report_number=5465;
+
+1 row updated.
+
+SQL> update participated set age=20 where report_number=3232;
+
+1 row updated.
+
+SQL> update participated set age=20 where report_number=4354;
+
+1 row updated.
+
+SQL> update participated set age=43 where report_number=4543;
+
+1 row updated.
+
+SQL> select * from participated;
+
+DRIVER_ID            REGNO      REPORT_NUMBER DAMAGE_AMOUNT        AGE
+-------------------- ---------- ------------- ------------- ----------
+20173476488          KA20MA2323          6433         25000         31
+20173433233          KA19MB3432          5465         12431         28
+20173476445          KA20P1221           3232          1931         20
+20173434534          KA19MA2321          4354         32333         20
+20173424323          KA20Z3345           4543         21333         43
+
+SQL> alter table participated drop column age;
+
+Table altered.
+
+SQL> select * from participated;
+
+DRIVER_ID            REGNO      REPORT_NUMBER DAMAGE_AMOUNT
+-------------------- ---------- ------------- -------------
+20173476488          KA20MA2323          6433         25000
+20173433233          KA19MB3432          5465         12431
+20173476445          KA20P1221           3232          1931
+20173434534          KA19MA2321          4354         32333
+20173424323          KA20Z3345           4543         21333
+
+
+SQL> select count(*) from accident where extract(year from acc_date)=2008;
+
+  COUNT(*)
+----------
+         0
+
+SQL> select model, count(*) from car group by model;
+
+MODEL             COUNT(*)
+--------------- ----------
+Honda city               1
+Maruti 800               1
+Hyundai i20              1
+Maruti alto              1
+Hyundai i10              1
+
+
+SQL> select name as OWNER_NAME, damage_amount as TOTAL_DAMAGE
+  2  from person,participated
+  3  where (person.driver_id)=(participated.driver_id)
+  4  order by damage_amount DESC;
+
+OWNER_NAME      TOTAL_DAMAGE
+--------------- ------------
+abc                    32333
+mno                    25000
+wre                    21333
+xyz                    12431
+mno			1931
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////5th lb table creation/////////////////////////////////////////////////
+SQL> create table student
+  2  ( regno varchar(10) primary key,
+  3  name varchar(10),
+  4  major varchar(10),
+  5  bday date);
+
+Table created.
+
+SQL> create table course
+  2  ( course# int primary key,
+  3  cname varchar(10),
+  4  dept varchar(5));
+
+Table created.
+
+SQL> create table enroll
+  2  ( regno varchar(10),
+  3  course# int,
+  4  primary key(regno,course#));
+
+Table created.
+
+SQL> alter table enroll add foreign key(course#) references course(course#);
+
+Table altered.
+
+SQL> alter table enroll add foreign key(regno) references student(regno);
+
+Table altered.
+
+SQL> create table book_adoption(
+  2  course# int,
+  3  sem int,
+  4  book_isbn int,
+  5  primary key(course#,book_isbn),
+  6  foreign key(course#) references course(course#) );
+
+Table created.
+
+SQL> create table text(
+  2  book_isbn int primary key,
+  3  book_title varchar(15),
+  4  publisher varchar(10),
+  5  author varchar(10));
+
+Table created.
+
+
+SQL> alter table book_adoption add foreign key (book_isbn) references
+  2  text(book_isbn);
+
+Table altered.
+
+
+//inserting into STUDENT table
+SQL> insert into student values(1834,'abhi','computers','22-mar-2000');
+
+1 row created.
+
+SQL> insert into enroll values(1834,1244);
+
+1 row created.
+
+SQL> insert into course values(1675,'Maths101','MAT');
+
+1 row created.
+
+SQL> insert into text values (912,'PSUC','Pearson','Arora');
+
+1 row created.
+
+
+SQL> insert into book_adoption values(1455,1,954);
+
+1 row created.
+
+
+lab 5 q1-
+SQL> select regno, name, count(*) as Enrolled
+  2  from student natural join enroll natural join course
+  3  where regno IN
+  4  ( select regno from enroll group by regno having count(*) >=2)
+  5  group by regno,name;
+
+REGNO      NAME         ENROLLED
+---------- ---------- ----------
+1834       abhi                2
+1812       chris               2
+
+lab 5 q4-not enrolled intoany course
+SQL> select a.regno, a.name
+  2  from student a where a.regno NOT IN
+  3  (select b.regno from enroll b);
+
+REGNO      NAME
+---------- ----------
+1916       vinay
+2096       ravi
+
+
+///lab 5 q2
+SQL> select a.dept, b.book_isbn
+  2  from course a, book_adoption b
+  3  where (a.course#=b.course#) and b.book_isbn IN
+  4  (select c.book_isbn from text c where publisher = 'Pearson');
+
+DEPT   BOOK_ISBN
+----- ----------
+CSE          912
+ECO          911
+
+////lab 5 q3 
+
+SQL> select regno,name, count(DISTINCT dept)
+  2  from student natural join enroll natural join course
+  3  where regno in
+  4  (select regno from enroll group by regno having count(*)>=2 )
+  5  group by regno,name;
+
+REGNO      NAME       COUNT(DISTINCTDEPT)
+---------- ---------- -------------------
+2096       ravi                         1
+1834       abhi                         2
+1812       chris                        2
+//question 3 CORRECT CODEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+SQL> select regno,name, count(DISTINCT dept)
+  2  from student natural join enroll natural join course
+  3  where regno in
+  4  (select regno from enroll group by regno having count(*)>=2 )	//here i just take thouse regno that are enrolled into more than one course irrespective of the departmets they have enrolled themselves into
+  5  group by regno,name
+  6  having count(Distinct dept)>=2;
+
+REGNO      NAME       COUNT(DISTINCTDEPT)
+---------- ---------- -------------------
+1834       abhi                         2
+1812       chris                        2
+
+SQL> select regno, name, count(*) as Enrolled
+  2  from student natural join enroll natural join course
+  3  where regno IN
+  4  ( select regno from enroll group by regno having count(*) >=2)
+  5  group by regno,name;
+
+REGNO      NAME         ENROLLED
+---------- ---------- ----------
+1834       abhi                2
+1812       chris               2
+
+//this code doestn use nested queries
+SQL> select regno, name, count(cname) as No_Of_Courses
+  2  from student natural join course natural join enroll
+  3  group by regno,name
+  4  having count(cname)>=2;
+
+REGNO      NAME       NO_OF_COURSES
+---------- ---------- -------------
+1834       abhi                   2
+1812       chris                  2
+
+////lab 5 question h
+SQL> select publisher, count(*) as Books_Published
+  2  from text
+  3  group by publisher;
+
+PUBLISHER  BOOKS_PUBLISHED
+---------- ---------------
+DpR3                     1
+Oreilly                  1
+Pearson                  2
+TMgH
+
+///question g
+SQL> select regno, name, count(book_isbn) maaximum
+  2  from student natural join enroll natural join book_adoption
+  3  group by regno,name
+  4  having count(book_isbn) = (select max(count(book_isbn))
+  5  from book_adoption group by course# );
+
+REGNO      NAME         MAAXIMUM
+---------- ---------- ----------
+1856       vijay               2
+1834       abhi                2
+
+SQL> select regno, name, count(book_isbn)
+  2  from student natural join enroll natural join book_adoption
+  3  group by regno,nameincc
+  4  having count(book_isbn) >= all (select count(book_isbn) from book_adoption group by course#);
+
+REGNO      NAME       COUNT(BOOK_ISBN)
+---------- ---------- ----------------
+1856       vijay                     2
+1834       abhi                      2
+
+//question f
+SQL> select course#, cname
+  2  from course natural join book_adoption natural join text
+  3  group by course#, cname
+  4  having count(publisher)>=2;
+
+   COURSE# CNAME
+---------- ----------
+      1455 Fina101
+      1244 Code101
+
+////second
+SQL> select distinct course#, cname
+  2  from course
+  3  where course# IN
+  4  (select course# from book_adoption natural join text group by course# having count(*) >=2 );
+
+   COURSE# CNAME
+---------- ----------
+      1244 Code101
+      1455 Fina101
+
+///question i
+SQL> select regno,name
+  2  from student
+  3  where regno IN
+  4  ( select regno from enroll natural join book_adoption );
+
+REGNO      NAME
+---------- ----------
+1812       chris
+1834       abhi
+1856       vijay
+
+///question e
+SQL> select book_title, book_isbn
+  2  from book_adoption natural join course natural join enroll natural join text;
+
+BOOK_TITLE       BOOK_ISBN
+--------------- ----------
+RigItUp                932
+intro to coding        986
+PSUC                   912
+basics of fina         954
+Economical stuf        911
+

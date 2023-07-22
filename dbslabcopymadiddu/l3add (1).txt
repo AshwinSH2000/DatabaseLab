@@ -1,0 +1,53 @@
+ create table customer(
+  2  custid int,
+  3  cname varchar(20),
+  4  city varchar(20),
+  5  primary key(custid));
+
+Table created.
+
+SQL> create table orders(
+  2  orderid int,
+  3  odate date,
+  4  custid int,
+  5  ordamt int,
+  6  primary key(orderid));
+
+Table created.
+
+SQL> create table item(
+  2  itemid int,
+  3  unitprice int,
+  4  primary key(itemid));
+
+Table created.
+
+
+SQL> create table orderitems(
+  2  orderid int references orders(orderid),
+  3  itemid int references item(itemid),
+  4  qty int,
+  5  primary key(orderid,itemid));
+
+Table created.
+
+SQL> create table shipment(
+  2  orderid int references orders(orderid),
+  3  wareid int,
+  4  shipdate date,
+  5  primary key(orderid));
+
+Table created.
+
+SQL> create table warehouse(
+  2  wareid int,
+  3  city varchar(20),
+  4  primary key(wareid));
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+a) select count(orderid),avg(ordamt) from orders
+    group by orders.custid;
+b)select orderid from shipment,warehouse
+  2  where shipment.wareid=warehouse.wareid and city='bangalore';
+c

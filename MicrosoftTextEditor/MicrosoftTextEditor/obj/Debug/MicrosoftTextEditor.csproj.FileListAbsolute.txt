@@ -1,0 +1,9 @@
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\bin\Debug\MicrosoftTextEditor.exe.config
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\bin\Debug\MicrosoftTextEditor.exe
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\bin\Debug\MicrosoftTextEditor.pdb
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.csprojResolveAssemblyReference.cache
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.Form1.resources
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.Properties.Resources.resources
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.csproj.GenerateResource.Cache
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.exe
+D:\180953352\MicrosoftTextEditor\MicrosoftTextEditor\obj\Debug\MicrosoftTextEditor.pdb

@@ -1,0 +1,12 @@
+D:\180953352\BankingApplication\BankingApplication\bin\Debug\BankingApplication.exe.config
+D:\180953352\BankingApplication\BankingApplication\bin\Debug\BankingApplication.exe
+D:\180953352\BankingApplication\BankingApplication\bin\Debug\BankingApplication.pdb
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.csprojResolveAssemblyReference.cache
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Form1.resources
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Properties.Resources.resources
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.csproj.GenerateResource.Cache
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.exe
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.pdb
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Form2.resources
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Form3.resources
+D:\180953352\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Form5.resources

@@ -1,0 +1,168 @@
+insert into person values('DRI1','Ram','Street 1, Eswar Nagar,
+Manipal');
+insert into person values('DRI2','Rajesh','Street 2, Eswar Nagar,
+Manipal');
+insert into person values('DRI3','Varun','Street 3, Eswar Nagar,
+Manipal');
+insert into person values('DRI4','Raju','Street 4, Eswar Nagar,
+Manipal');
+insert into person values('DRI5','Ajay','Street 5, Eswar Nagar,
+Manipal');
+
+INSERT INTO CAR VALUES('TN-12-1111', 'Honda City', 2015);
+INSERT INTO CAR VALUES('TN-20-A123', 'Maruti 800', 2008);
+INSERT INTO CAR VALUES('MH-19-A145', 'Audi A8', 2013);
+INSERT INTO CAR VALUES('PY-15-18AK', 'WagonR', 2009);
+INSERT INTO CAR VALUES('KA-20-A381', 'Honda Civic', 2019);
+
+INSERT INTO ACCIDENT VALUES(1, TO_DATE('14-10-2019', 'DD-MM-YYYY'), 'Manipal');
+INSERT INTO ACCIDENT VALUES(2, TO_DATE('03-05-2018', 'DD-MM-YYYY'), 'Mangalore');
+INSERT INTO ACCIDENT VALUES(3, TO_DATE('03-06-2018', 'DD-MM-YYYY'), 'Goa');
+INSERT INTO ACCIDENT VALUES(4, TO_DATE('03-10-2017', 'DD-MM-YYYY'), 'Gujarat');
+INSERT INTO ACCIDENT VALUES(5, TO_DATE('13-10-2017', 'DD-MM-YYYY'), 'Manipal');
+
+
+INSERT INTO OWNS VALUES ('DRI2', 'MH-19-A145');
+INSERT INTO OWNS VALUES ('DRI1', 'TN-20-A123');
+INSERT INTO OWNS VALUES ('DRI3', 'TN-12-1111');
+INSERT INTO OWNS VALUES ('DRI5', 'PY-15-18AK');
+INSERT INTO OWNS VALUES ('DRI4', 'KA-20-A381');
+
+INSERT INTO PARTICIPATED VALUES('DRI2', 'MH-19-A145', 3, 3500);
+INSERT INTO PARTICIPATED VALUES('DRI3', 'TN-12-1111', 2, 2000);
+INSERT INTO PARTICIPATED VALUES('DRI1', 'TN-20-A123', 1, 10000);
+INSERT INTO PARTICIPATED VALUES('DRI4', 'KA-20-A381', 4, 200);
+INSERT INTO PARTICIPATED VALUES('DRI5', 'PY-15-18AK', 5, 350);
+------------------------------------------------------------------------------------------------
+q4
+
+INSERT INTO ACCIDENT VALUES(6, TO_DATE('15-03-2018', 'DD-MM-YYYY'), 'Chennai');
+INSERT INTO PARTICIPATED VALUES('DRI3', 'TN-12-1111', 6, 3000);
+
+create or replace procedure tot_damage(d_id in varchar, yr in varchar) as
+count1 number(5);
+dmg number(5):=0;
+begin
+select count(*) into count1 from accident a natural join participated p where extract(year from a.accd_date)=yr and p.driver_id=d_id;
+if count1>0 then
+	select sum(damage_amount) into dmg from accident a natural join participated p where extract(year from a.accd_date)=yr and p.driver_id=d_id;
+	dbms_output.put_line('Total Damage : ' || dmg);
+else
+	dbms_output.put_line('No such accidents!');
+end if;
+end;
+/
+
+exec tot_damage('DRI3','2018');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+q3
+
+create or replace function num_accidents(yr in varchar) return number as
+total number(10);
+begin
+select count(*) into total from accident a where extract(year from a.accd_date)=yr;
+return total;
+end;
+/ 
+
+set serveroutput on;
+declare
+	total number(10);
+begin
+	total:=num_accidents('2018');
+	dbms_output.put_line(total);
+end;
+/
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+q5
+
+create or replace procedure loc_accident(locn in varchar) as
+begin
+for value in(select driver_id,reg_no,accd_date from accident natural join participated where location=locn)
+loop
+	dbms_output.put_line('Driver ID : '|| value.driver_id || ' | Reg No : ' || value.reg_no || ' | Date: ' || value.accd_date);
+end loop;
+end;
+
+set serveroutput on;
+exec loc_accident('Manipal');
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+q6
+
+create T1 as select * from customer natural join orders;
+delete from T1 - schema obtained!
+
+create or replace procedure ins_data as
+begin
+insert into T1 select cust_no,cname,city from customer natural join orders group by cust_no,city,cname having sum(ordamt)>10000;
+end;
+/
+
+exec ins_data;
+
+--------------------------------------------------------------------------------------
+
+q2
+
+create or replace trigger driver after insert on participated 
+for each row
+declare
+	name1 varchar(30);
+	name2 varchar(30);
+begin
+	select name,driver_id into name1,name2 from person where person.driver_id=:new.driver_id;
+	dbms_output.put_line(name1||' '||name2);
+end;
+/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LOADING MULTIPLE VALUES AT ONCE
+
+create or replace procedure test as
+num1 number(10);
+num2 number(10);
+begin
+    select order_no,cust_no into num1,num2 from orders where ordamt=10001;
+    dbms_output.put_line(num1 || ' ' || num2);
+end;
+/
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PRINTING NAMES OF INSTRUCTORS IN ONE PARTICULAR DEPARTMENT
+
+create or replace procedure name_extract(depart in varchar) as
+count1 number(10);
+begin
+select count(*) into count1 from instructors i where i.dept=depart;
+if count1>0 then
+for var in(select name from instructors i where i.dept=depart)
+loop
+    dbms_output.put_line(var.name);
+end loop;
+else
+     dbms_output.put_line('No instructors');	
+end if;
+end;
+/
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PRINTING STUDENT NAMES WITH GRADE A+
+
+create or replace procedure stud_name as
+count1 number(10);
+begin
+select count(*) into count1 from student where grade='A+';
+if count1>0 then
+	for var in(select name from student where grade='A+')
+	loop
+		dbms_output.put_line(var.name);
+	end loop;
+else
+	dbms_output.put_line('No such students');
+end if;
+end;
+/
+

@@ -1,0 +1,8 @@
+D:\180953352\Registration\Registration\bin\Debug\Registration.exe.config
+D:\180953352\Registration\Registration\bin\Debug\Registration.exe
+D:\180953352\Registration\Registration\bin\Debug\Registration.pdb
+D:\180953352\Registration\Registration\obj\Debug\Registration.Form1.resources
+D:\180953352\Registration\Registration\obj\Debug\Registration.Properties.Resources.resources
+D:\180953352\Registration\Registration\obj\Debug\Registration.csproj.GenerateResource.Cache
+D:\180953352\Registration\Registration\obj\Debug\Registration.exe
+D:\180953352\Registration\Registration\obj\Debug\Registration.pdb
